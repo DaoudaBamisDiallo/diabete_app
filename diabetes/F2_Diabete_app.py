@@ -2,23 +2,26 @@
 # packages necessaires
 import streamlit as st
 import numpy as np
-import  joblib
+import pickle as pkl
 import pandas as pd
 
 #-------------modelisation et deployement----------------------------
 # def main():
 # description de l'application
-st.image("datasets_bd\images\presnation.webp")
+st.image("datasets_bd/images/presnation.webp")
 st.title("Welcome to Fast_Finding Diabete")
 st.header("Réalisée par : Pro-Data_Consulting")
 st.markdown(("FFD est une application est conçcue pour détecter très rapidement le diabete chez les femmes"))
 
 #chagement du modele
 def load_model():
-    data = joblib.load("datasets_bd/db/model_diabete.joblib")
+    with open("datasets_bd/db/model_diabete.pkl","rb") as file:
+        data = pkl.load(file)
+    file.close()
     return data
 
 model_diabete = load_model()
+
 # fonction d'inference
 def inference(Glucose,BMI,Age,DiabetesPedigreeFunction,BloodPressure,Pregnancies):
     df = np.array([Glucose,BMI,Age,DiabetesPedigreeFunction,BloodPressure,Pregnancies])
@@ -53,5 +56,5 @@ with col4 :
     url ="https://ettienyann-diabete-diabete-tr9slg.streamlit.app/"
     st.button("[Retour à analyse](%s)" % url,type="primary")
 # if __name__=='main':
-#   main()
+# #   main()
         
